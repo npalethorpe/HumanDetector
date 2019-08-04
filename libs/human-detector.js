@@ -21,7 +21,6 @@ function HumanDetector(container, config){
     this.allowedFails = Math.max(1, isNaN(config.allowedFails) ? 8 : config.allowedFails);
     this.debugMode = config.debugMode === true;
     this.captchaCode = this.getNewCaptcha();
-    this.isValid = false;
     this.state = 0; // 0==Not Entered, 1==Human Pass, 2==Computer Fail
     this.failCount = 0;
     this.draw();
@@ -44,7 +43,6 @@ HumanDetector.prototype.getNewCaptcha = function(){
 
 // Renew the captcha and redraw
 HumanDetector.prototype.reset = function (focus){
-    this.isValid = false;
     this.state = 0; // Reset back to nothing entered
     this.failCount = 0; // Reset the fail count
     this.captchaCode = this.getNewCaptcha();
@@ -282,7 +280,6 @@ HumanDetector.prototype.draw = function() {
                 if (enteredVal === this.captchaCode) {
 
                     // Valid code entered
-                    this.isValid = true;
                     this.state = 1;
                     this.draw();
 
