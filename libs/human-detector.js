@@ -20,6 +20,7 @@ function HumanDetector(container, config){
     this.maxLetterRotation = isNaN(config.maxLetterRotation) ? 15 : config.maxLetterRotation;
     this.allowedFails = Math.max(1, isNaN(config.allowedFails) ? 8 : config.allowedFails);
     this.debugMode = config.debugMode === true;
+    this.stereoscopicMode = config.stereoscopicMode === true;
     this.captchaCode = this.getNewCaptcha();
     this.state = 0; // 0==Not Entered, 1==Human Pass, 2==Computer Fail
     this.failCount = 0;
@@ -229,10 +230,32 @@ HumanDetector.prototype.draw = function() {
             `);
             ctx.font = `${letterRand<.3?"bolder":letterRand>.7?"lighter":"normal"} ${letterSize}px Arial`;
             ctx.textBaseline = "top";
-            const colourInt = this.getRandomNumberBetween(0, 80, true);
-            const colourOpacity = this.getRandomNumberBetween(0.7, 1);
-            ctx.fillStyle = `rgba(${colourInt},${colourInt},${colourInt},${colourOpacity})`;
-            ctx.fillText(this.captchaCode[i], (letterCanvas.width - (letterSize * .6)) / 2, (letterCanvas.height - letterSize) / 2);
+            
+            // Calculate the new X and Y positions for this letter
+            const letterX = (letterCanvas.width - (letterSize * .6)) / 2;
+            const letterY = (letterCanvas.height - letterSize) / 2;
+            
+            // Check if we have applied the fun Stereoscopic mode
+            if (this.stereoscopicMode===true){
+
+                // Sterioscopic mode so add in layered text
+                ctx.fillStyle = "rgba(223,80,63,.8)";
+                ctx.fillText(this.captchaCode[i], letterX-(letterSize*.07), letterY);
+                ctx.fillStyle = "rgba(148,215,226,.8)";
+                ctx.fillText(this.captchaCode[i], letterX+(letterSize*.07), letterY);
+                ctx.fillStyle = "black"
+                ctx.fillText(this.captchaCode[i], letterX, letterY);
+
+            } else {
+                
+                // Randomly generate slight variations on colour and opacity
+                const colourInt = this.getRandomNumberBetween(0, 80, true);
+                const colourOpacity = this.getRandomNumberBetween(0.7, 1);
+                ctx.fillStyle = `rgba(${colourInt},${colourInt},${colourInt},${colourOpacity})`;
+                ctx.fillText(this.captchaCode[i], letterX, letterY);
+
+            }
+
             ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
             middleContainer.appendChild(letterCanvas);
 

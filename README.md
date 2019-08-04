@@ -24,6 +24,7 @@ let detector = new HumanDetector(detectorElement, {
     maxLetterRotation:20,
     captchaSize:5,
     allowedFails:10,
+    stereoscopicMode:false,
 });
 ```
   
