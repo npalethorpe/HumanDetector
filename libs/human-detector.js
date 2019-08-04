@@ -11,6 +11,8 @@
     Enjoy! :)
 */
 function HumanDetector(container, config){
+    if (!config){ config={}; }
+
     this.container = container;
     this.letterSize = Math.min(60, Math.max(30, isNaN(config.letterSize) ? 30 : config.letterSize));
     this.captchaSize = Math.min(8, Math.max(4, isNaN(config.captchaSize) ? 5 : config.captchaSize));
