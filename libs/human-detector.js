@@ -193,7 +193,8 @@ HumanDetector.prototype.draw = function() {
             user-select: none;
             -webkit-user-select:none;
             -moz-user-select:none;
-            padding-left:10px;
+            padding:0 0 0 10px;
+            margin:0;
             font-size:${ Math.max(12, this.letterSize*.4) }px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             letter-spacing:${this.letterSize*.04}px;
@@ -291,6 +292,7 @@ HumanDetector.prototype.draw = function() {
             width:100%;
             transition:100ms ease-in-out;
             padding:5px 10px;
+            margin:0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             font-size:${ Math.max(12, this.letterSize*.5) }px;
             letter-spacing:${this.letterSize*.06}px;
