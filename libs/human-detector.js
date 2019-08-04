@@ -102,7 +102,7 @@ HumanDetector.prototype.draw = function() {
     `);
     this.container.appendChild(innerContainer);
 
-    // Add left refresh button container
+    // Add left button container
     const leftContainer = document.createElement("div");
     leftContainer.id = "leftContainer";
     leftContainer.setAttribute("style", `
@@ -145,14 +145,14 @@ HumanDetector.prototype.draw = function() {
         isolation:auto;
         mix-blend-mode:normal;
     `);
-
-    //leftButtonPath.setAttribute("d", '');
     leftButtonPath.setAttribute("d", this.state===1 ? tickSVG : this.state===2 ? crossSVG : refreshSVG);
     leftButton.appendChild(leftButtonPath);
 
     // Add click listener for the left container
     if (this.state===0) {
 
+        // We only want to apply the left button events if we're in the
+        // 'undecided' state.
         leftContainer.onmousedown = () => {
             leftButton.style.opacity = "0.3";
         }
