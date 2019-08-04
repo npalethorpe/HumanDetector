@@ -1,0 +1,19 @@
+{
+    "name": "humandetector",
+    "version": "1.0.0",
+    "description": "Human detector is a basic ES5 compatible javascript captcha library.",
+    "main": "HumanDetector.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/npalethorpe/HumanDetector"
+    },
+    "scripts": {
+        "test": "jest",
+        "minify": "uglifyjs ./libs/human-detector.js -c -m -o ./libs/human-detector.min.js"
+    },
+    "author": "npalethorpe",
+    "license": "MIT",
+    "devDependencies": {
+        "uglify-es": "^3.3.9"
+    }
+}
