@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <script src="./HumanDetector.js"></script>
+        <style>
+            button {
+                font-size:15px;
+                color:rgba(14,14,14,1);
+                border-radius:4px;
+                padding:5px 10px;
+                min-width:150px;
+                background:rgba(255,255,255,1);
+                border:1px solid rgba(14,14,14,1);
+                transition:120ms ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="detector"></div>
+        <br /><br />
+        <button onclick="submit()">Conclusion</button>
+        <button onclick="reset()">Reset</button>
+        <script type="text/javascript">
+            (function() {
+                let detectorElement = document.getElementById('detector');
+                let detector = null;
+                if (!!detectorElement){
+                    detector = new HumanDetector(detectorElement, {
+                        letterSize:40,
+                        debugMode:false,
+                        minLetterRotation:0,
+                        maxLetterRotation:20,
+                        captchaSize:5,
+                        allowedFails:10,
+                    });
+                }
+                
+                submit = () => {
+                    const state = detector.detectionState();
+                    if (state===1){
+                        alert("A human has been identified.");
+                    } else if (state===2) {
+                        alert("A computer has been identified.");
+                    } else {
+                        alert("No conclusion has been made yet")
+                    }
+                }
+                
+                reset = () => {
+                    detector.reset();
+                }
+            })();
+        </script>
+    </body>
+</html>
