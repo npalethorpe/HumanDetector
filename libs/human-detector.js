@@ -21,6 +21,8 @@ function HumanDetector(container, config){
     this.allowedFails = Math.max(1, isNaN(config.allowedFails) ? 8 : config.allowedFails);
     this.debugMode = config.debugMode === true;
     this.stereoscopicMode = config.stereoscopicMode === true;
+    this.useHoneyPot = config.useHoneyPot !== false; // We'll use a honeypot unless told not too!
+    this.hasAddedHoneyPot = false;
     this.captchaCode = this.getNewCaptcha();
     this.state = 0; // 0==Not Entered, 1==Human Pass, 2==Computer Fail
     this.failCount = 0;
@@ -56,6 +58,18 @@ HumanDetector.prototype.reset = function (focus){
 
 // Function to check if a valid captcha has been entered yet
 HumanDetector.prototype.detectionState = function(){
+    const honeypot = this.container.getElementsByClassName("human-detector-honey-pot");
+
+    // Check the honeypot
+    if (honeypot.length>0 && honeypot[0].value.length>0){
+
+        // The honeypot input has a value so we'll presume this is a computer
+        this.state = 2;
+        this.draw();
+        
+    }
+
+    // Return the state
     return this.state;
 }
 
@@ -75,9 +89,17 @@ HumanDetector.prototype.draw = function() {
     const crossSVGSize = 50;
 
     // Remove all inner childs so we're starting from a clean point
-    while (this.container.firstChild) {
-        this.container.removeChild(this.container.firstChild);
+    for (var i=this.container.children.length-1; i>=0; i--) {
+        if (!this.container.children[i].classList.contains("human-detector-honey-pot")){
+            this.container.removeChild(this.container.children[i]);
+        }
     }
+    /*
+    while (this.container.firstChild) {
+        if (!this.container.firstChild.classList.contains("entryField_honey")){
+            this.container.removeChild(this.container.firstChild);
+        }
+    }*/
 
     // Setup the container styling
     this.container.setAttribute("style", `
@@ -301,7 +323,18 @@ HumanDetector.prototype.draw = function() {
         `);
         entryField.oninput = (e) => {
             const enteredVal = e.target.value;
-            if (enteredVal.length === this.captchaCode.length) {
+            const honeypot = this.container.getElementsByClassName("human-detector-honey-pot");
+
+            // Run a few checks
+            if (honeypot.length>0 && honeypot[0].value.length>0){
+
+                // The honeypot input has a value so we'll presume this is a computer
+                this.state = 2;
+                this.draw();
+
+            } else if (enteredVal.length === this.captchaCode.length) {
+
+                // We've reached our correct length - check the code
                 if (enteredVal === this.captchaCode) {
 
                     // Valid code entered
@@ -335,6 +368,24 @@ HumanDetector.prototype.draw = function() {
         }
         rightContainer.appendChild(entryField);
 
+        // Add in a honey pot check if we require it
+        if (this.useHoneyPot && this.hasAddedHoneyPot!==true){
+            this.hasAddedHoneyPot = true;
+            const entryField = document.createElement("input");
+            entryField.classList.add("human-detector-honey-pot");
+            entryField.type = "text";
+            entryField.setAttribute("placeholder", "");
+            entryField.setAttribute("style", `
+                opacity: 0; 
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                height: 0; 
+                width: 0; 
+                z-index: -1;
+            `);
+            this.container.appendChild(entryField);
+        }
     }
 
 }

@@ -25,10 +25,15 @@ let detector = new HumanDetector(detectorElement, {
     captchaSize:5,
     allowedFails:10,
     stereoscopicMode:false,
+    useHoneyPot:true,
 });
 ```
   
 If you'd like a working example check out the SampleWebsite.html file!
   
 And thats all there is to it! I've kept all styling to be automatically applied in the JS to make implementation easier but feel free to jump into the code and modify to suit yourself! I would advise that you leave the margins and sizing alone though as a lot of it is randomised in the code so changing styling properties could very well impact how the UI is displayed! - what I mean is, you may balls it up. Have fun though! :P
-
+  
+## Honey Pot
+This was a new thing for me to understand but its actually a pretty good idea so I thought I would save some other people (and future me) some trouble and just embed it into the HumanDetector! The basic principal is that bots can't differentiate between which fields it should and shouldn't populate, it also can't physically see which inputs are actually visible on the screen (unless the input is a hidden or display:none type). Using this we can add an additional input into the UI within the form (where this detector will likely sit) and if we find a value sitting in our 'honey pot' input field (which remember; the user cannot see) then we know its most likely a bot.
+  
+I've baked this into the library but you can turn it off by setting the `useHoneyPot:false` config option. I should note that the reset() function will **NOT** clear the honeypot input - a refresh of the page will manage that though. This is by design to persist the input value.
