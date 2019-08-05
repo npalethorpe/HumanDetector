@@ -3,13 +3,10 @@ I wrote this class after being harrased by a constant stream of spam emails from
   
 I should state here that the Google Captcha is going to be way more advanced than anything I could cook up in 2 days worth of just messing around whilst binge watching TV shows, but I wanted something I could just drop and drag into a website with very little hassle, no API keys, just a basic human check that would catch out most attempts.
   
-## Nerd here; how does it work?
-Ah a like-minded individual I see! Welcome! - I was working from the basis of the original Captcha design where each letter was randomised but wanted to make it JS friendly and quick to do so I went down the road of using a Canvas element to display each character. Whilst I could have used a single canvas element to draw the text I couldn't be bothered to work out the pen movements so I decided to just use multiple canvas elements for each letter - the performance is still decent! I then applied a multitude of limited randomisations on the colour, size, position, opacity and rotation, and we have a good looking captcha!
-  
-Hope you enjoy looking through the source code and finding better ways to achieve what I've done! ;)
   
 ## Can I use it?
 But of course you may! I've written this library with the intention of allowing anyone else to use it and modify as they see fit, I likely won't be putting much effort into maintaining it so if you find a fault be my guest at resolving and pushing in a fix! :)
+  
   
 ## How to implement?
 - First thing, grab a copy of the file and include it in your HTML.
@@ -20,8 +17,10 @@ let detectorElement = document.getElementById('detector');
 let detector = new HumanDetector(detectorElement);
 ```
   
+  
 If you'd like a working example check out the SampleWebsite.html file!
-
+  
+  
 ## Config Options
 There a few options that I've coded in to allow you to customise the UI, see the following for details...
 ```
@@ -73,6 +72,13 @@ let detectorElement = document.getElementById('detector');
 let detector = new HumanDetector(detectorElement, config);
 
 ```
+  
+  
+## Nerd here; how does it work?
+Ah a like-minded individual I see! Welcome! - I was working from the basis of the original Captcha design where each letter was randomised but wanted to make it JS friendly and quick to build, so I went down the road of using a Canvas element to display each character. Whilst I could have used a single canvas element to draw the text I couldn't be bothered to work out the pen movements so I decided to just use multiple canvas elements for each letter - the performance is still decent! I then applied a multitude of limited randomisations on the colour, size, position, opacity and rotation, and we have a good looking captcha!
+  
+You can use the `debugMode:true` config option in order to get a better understanding of how everything fits together! (Plus it looks kinda cool!). Hope you enjoy looking through the source code and finding better ways to achieve what I've done! ;)
+  
   
 ## Honey Pot
 This was a new thing for me to understand but its actually a pretty good idea so I thought I would save some other people (and future me) some trouble and just embed it into the HumanDetector! The basic principal is that bots can't differentiate between which fields it should and shouldn't populate, it also can't physically see which inputs are actually visible on the screen (unless the input is a hidden or display:none type). Using this we can add an additional input into the UI within the form (where this detector will likely sit) and if we find a value sitting in our 'honey pot' input field (which remember; the user cannot see) then we know its most likely a bot.
