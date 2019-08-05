@@ -90,6 +90,7 @@ let detector = new HumanDetector(detectorElement, config);
 ## Methods
 There are a few available methods that you will use:
 ```
+
     // Detecting the current state will highlight if a human has been identified
     // or if a computer is thought to be in control.
     // The available values are:
