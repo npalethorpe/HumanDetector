@@ -66,7 +66,7 @@ HumanDetector.prototype.detectionState = function(){
         // The honeypot input has a value so we'll presume this is a computer
         this.state = 2;
         this.draw();
-        
+
     }
 
     // Return the state
@@ -94,12 +94,6 @@ HumanDetector.prototype.draw = function() {
             this.container.removeChild(this.container.children[i]);
         }
     }
-    /*
-    while (this.container.firstChild) {
-        if (!this.container.firstChild.classList.contains("entryField_honey")){
-            this.container.removeChild(this.container.firstChild);
-        }
-    }*/
 
     // Setup the container styling
     this.container.setAttribute("style", `
