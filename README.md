@@ -17,21 +17,62 @@ But of course you may! I've written this library with the intention of allowing 
 - In your JS script area find your element and pass it into the captcha class initialiser like so...
 ```
 let detectorElement = document.getElementById('detector');
-let detector = new HumanDetector(detectorElement, {
-    letterSize:40,
-    debugMode:false,
-    minLetterRotation:0,
-    maxLetterRotation:20,
-    captchaSize:5,
-    allowedFails:10,
-    stereoscopicMode:false,
-    useHoneyPot:true,
-});
+let detector = new HumanDetector(detectorElement);
 ```
   
 If you'd like a working example check out the SampleWebsite.html file!
-  
-And thats all there is to it! I've kept all styling to be automatically applied in the JS to make implementation easier but feel free to jump into the code and modify to suit yourself! I would advise that you leave the margins and sizing alone though as a lot of it is randomised in the code so changing styling properties could very well impact how the UI is displayed! - what I mean is, you may balls it up. Have fun though! :P
+
+## Config Options
+There a few options that I've coded in to allow you to customise the UI, see the following for details...
+```
+
+// Config options
+const config = {
+
+    // The size of the letters - the entire UI will scale appropriately as 
+    // this number is enlarged. It has a min of 30 and max of 60. 
+    // Default is 30
+    letterSize:40,
+
+    // Debug mode will simply highlight certain elements so you can see
+    // how things are scaled, rotated and positioned easier.
+    // Default is false
+    debugMode:false,
+
+    // Minimum letter rotation is the smallest degree int of rotation allowed
+    // 0 is the smallest allowed here and will be randomised on both - and + scales
+    // Default is 0
+    minLetterRotation:0,
+
+    // Maximum letter rotation is the highest degree int of rotation allowed
+    // Must be less than 360 and greater than the minLetterRotation.
+    // Default is 15
+    maxLetterRotation:15,
+
+    // The length of the captcha phrase. Must be between 4 and 8.
+    // Default is 5
+    captchaSize:5,
+
+    // The quantity of times a user (or computer) can guess at a code incorrectly before
+    // we fall into them being a computer.
+    // Default is 8
+    allowedFails:8,
+
+    // Displays the letters in a StereoScopic style - this was just for fun :) 
+    // Default is false
+    stereoscopicMode:false,
+
+    // Embeds a hidden input which is used to help identify bot inputs. 
+    // Default is true
+    useHoneyPot:true,
+
+}
+
+// Grab element and create detector with our config
+let detectorElement = document.getElementById('detector');
+let detector = new HumanDetector(detectorElement, config);
+
+```
   
 ## Honey Pot
 This was a new thing for me to understand but its actually a pretty good idea so I thought I would save some other people (and future me) some trouble and just embed it into the HumanDetector! The basic principal is that bots can't differentiate between which fields it should and shouldn't populate, it also can't physically see which inputs are actually visible on the screen (unless the input is a hidden or display:none type). Using this we can add an additional input into the UI within the form (where this detector will likely sit) and if we find a value sitting in our 'honey pot' input field (which remember; the user cannot see) then we know its most likely a bot.
