@@ -91,24 +91,24 @@ let detector = new HumanDetector(detectorElement, config);
 There are a few available methods that you will use:
 ```
 
-    // Detecting the current state will highlight if a human has been identified
-    // or if a computer is thought to be in control.
-    // The available values are:
-    // 0 = No conclusion has been made - they still have attempts to try
-    // 1 = A human has been identified
-    // 2 = Too many fails or the honeypot trap was triggered, looks like a bot.
-    detector.detectionState();
+// Detecting the current state will highlight if a human has been identified
+// or if a computer is thought to be in control.
+// The available values are:
+// 0 = No conclusion has been made - they still have attempts to try
+// 1 = A human has been identified
+// 2 = Too many fails or the honeypot trap was triggered, looks like a bot.
+detector.detectionState();
 
 
-    // Resets the form with a new captcha phrase. This does not undo a honeypot
-    // trap though - for that to occur the user will need to refresh the page
-    detector.reset();
+// Resets the form with a new captcha phrase. This does not undo a honeypot
+// trap though - for that to occur the user will need to refresh the page
+detector.reset();
 
 
-    // Simply outputs a new Captcha phrase, calling this will not effect the
-    // Human Detector control itself and you can't plug this phrase back into
-    // the control...but you might want a Captcha for other means! :)
-    detector.getNewCaptcha();
+// Simply outputs a new Captcha phrase, calling this will not effect the
+// Human Detector control itself and you can't plug this phrase back into
+// the control...but you might want a Captcha for other means! :)
+detector.getNewCaptcha();
 
 ```
   

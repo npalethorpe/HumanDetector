@@ -58,7 +58,7 @@ HumanDetector.prototype.reset = function (focus){
 
 // Function to check if a valid captcha has been entered yet
 HumanDetector.prototype.detectionState = function(){
-    const honeypot = this.container.getElementsByClassName("human-detector-honey-pot");
+    const honeypot = this.container.getElementsByClassName("hdet_hp_input");
 
     // Check the honeypot
     if (honeypot.length>0 && honeypot[0].value.length>0){
@@ -90,7 +90,7 @@ HumanDetector.prototype.draw = function() {
 
     // Remove all inner childs so we're starting from a clean point
     for (var i=this.container.children.length-1; i>=0; i--) {
-        if (!this.container.children[i].classList.contains("human-detector-honey-pot")){
+        if (!this.container.children[i].classList.contains("hdet_hp_input")){
             this.container.removeChild(this.container.children[i]);
         }
     }
@@ -103,6 +103,9 @@ HumanDetector.prototype.draw = function() {
         padding:15px 25px;
         border: ${ this.debugMode ? "1px solid rgba(14,194,14,0.5)" : "1px solid rgba(230,230,230,1)" };
         border-radius:3px;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
     `);
 
     // Create an inner container
@@ -116,6 +119,9 @@ HumanDetector.prototype.draw = function() {
         width:${(this.captchaCode.length+1)*(this.letterSize*.6)+40+((this.letterSize*.7)*this.captchaCode.length)}px;
         height:${this.letterSize*1.3}px;
         overflow:hidden;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
     `);
     this.container.appendChild(innerContainer);
 
@@ -129,6 +135,8 @@ HumanDetector.prototype.draw = function() {
         align-items: center;
         justify-content: center;
         user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
         opacity:1;
         transition:100ms ease-in-out;
     `);
@@ -236,7 +244,7 @@ HumanDetector.prototype.draw = function() {
                 position:absolute; 
                 top:0;
                 margin-top:${(innerContainer.clientHeight-this.letterSize)*.3}px;
-                margin-left:${i*(this.letterSize*(letterRand>.5?.50:.54))}px;
+                margin-left:${i*(this.letterSize*(letterRand>.5?.46:.50))}px;
                 border: ${this.debugMode ? "1px solid rgba(0,0,197,0.4)" : "none"}; 
                 transform:rotate(${letterRotation}deg);
                 user-select: none;
@@ -317,7 +325,7 @@ HumanDetector.prototype.draw = function() {
         `);
         entryField.oninput = (e) => {
             const enteredVal = e.target.value;
-            const honeypot = this.container.getElementsByClassName("human-detector-honey-pot");
+            const honeypot = this.container.getElementsByClassName("hdet_hp_input");
 
             // Run a few checks
             if (honeypot.length>0 && honeypot[0].value.length>0){
@@ -366,8 +374,9 @@ HumanDetector.prototype.draw = function() {
         if (this.useHoneyPot && this.hasAddedHoneyPot!==true){
             this.hasAddedHoneyPot = true;
             const entryField = document.createElement("input");
-            entryField.classList.add("human-detector-honey-pot");
+            entryField.classList.add("hdet_hp_input");
             entryField.type = "text";
+            entryField.setAttribute("name", "hdet_hp_input");
             entryField.setAttribute("placeholder", "");
             entryField.setAttribute("style", `
                 opacity: 0; 
