@@ -16,6 +16,19 @@ But of course you may! I've written this library with the intention of allowing 
 let detectorElement = document.getElementById('detector');
 let detector = new HumanDetector(detectorElement);
 ```
+- Finally - when it comes to you submitting your form just run an additional check using the detector to confirm a human has been identified:
+```
+onSubmit = () => {
+    const state = detector.detectionState();
+    if (state===1){
+        alert("A human has been identified.");
+    } else if (state===2) {
+        alert("A computer has been identified.");
+    } else {
+        alert("No conclusion has been made yet");
+    }
+}
+```
   
   
 If you'd like a working example check out the SampleWebsite.html file!
