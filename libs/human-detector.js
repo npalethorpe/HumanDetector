@@ -15,6 +15,7 @@ function HumanDetector(container, config){
 
     this.container = container;
     this.letterSize = Math.min(60, Math.max(30, isNaN(config.letterSize) ? 30 : config.letterSize));
+    this.case = config.case || "uppercase";
     this.captchaSize = Math.min(8, Math.max(4, isNaN(config.captchaSize) ? 5 : config.captchaSize));
     this.minLetterRotation = Math.max(0, isNaN(config.minLetterRotation) ? 0 : config.minLetterRotation);
     this.maxLetterRotation = isNaN(config.maxLetterRotation) ? 15 : config.maxLetterRotation;
@@ -27,6 +28,18 @@ function HumanDetector(container, config){
     this.state = 0; // 0==Not Entered, 1==Human Pass, 2==Computer Fail
     this.failCount = 0;
     this.draw();
+
+    // Add in an event listener for the closest form on the page in relation to
+    // this component
+    const parentForm = this.container.closest("form");
+    const _this = this;
+    !!parentForm && parentForm.addEventListener('submit', function (e) {
+        if(!!config.formSubmitCatch && _this.detectionState()!==1){
+            e.preventDefault();
+            config.formSubmitCatch();
+        } 
+    }, false);
+
 }
 
 // Gets a new captcha
@@ -36,7 +49,15 @@ HumanDetector.prototype.getNewCaptcha = function(){
         let r = 0;
         while ("abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ123456789".indexOf(r) === -1) {
             r = Math.random() * 16 | 0;
-            r = r.toString(16).toUpperCase();
+            r = r.toString(16)
+
+            // By default characters will be lowercase - change this according to
+            // what is specified in the config
+            if (this.case==="uppercase"){
+                r = r.toUpperCase();
+            } else if (this.case==="both"){
+                r = Math.random()>.5 ? r.toUpperCase() : r;
+            }
         }
         captcha += r;
     }

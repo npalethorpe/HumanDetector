@@ -32,30 +32,34 @@
         </style>
     </head>
     <body>
+        <form id="myTestForm">
 
-        <!-- 
-            This is the important element!
-            It can be called anything you like, you can even use classes if you'd like
-            to handle multiple Human Detectors - You'll likely also have to give it a
-            class name though to help differentiate between them!
+            <!-- 
+                This is the important element!
+                It can be called anything you like, you can even use classes if you'd like
+                to handle multiple Human Detectors - You'll likely also have to give it a
+                class name though to help differentiate between them!
 
-            This div cannot have any inner elements - they'll just get wiped. It also
-            doesn't require any styling being applied - styling will be applied in the
-            JS.
-        -->
-        <div id="detector"></div>
+                This div cannot have any inner elements - they'll just get wiped. It also
+                doesn't require any styling being applied - styling will be applied in the
+                JS.
+            -->
+            <div id="detector"></div>
+            
 
+            <!--
+                The following buttons are just here for show in the sample to illustrate
+                how you can check whether the human detection has been successful or not
+                or whether a computer has been identified. 
+                Also it shows the reset functionality that allows you to manually clear
+                the session down and restart from square 1.
+            -->
+            <br /><br />
+            <button type="submit">Submit</button>
+            <button onclick="submit()">Conclusion</button>
+            <button onclick="reset()">Reset</button>
 
-        <!--
-            The following buttons are just here for show in the sample to illustrate
-            how you can check whether the human detection has been successful or not
-            or whether a computer has been identified. 
-            Also it shows the reset functionality that allows you to manually clear
-            the session down and restart from square 1.
-        -->
-        <br /><br />
-        <button onclick="submit()">Conclusion</button>
-        <button onclick="reset()">Reset</button>
+        </form>
 
 
         <!--
@@ -85,6 +89,16 @@
                         allowedFails:10,
                         stereoscopicMode:false,
                         useHoneyPot:true,
+                        case:"uppercase",
+                        formSubmitCatch:function(){
+
+                            // This detectors parent form was just submitted without the human verification
+                            // being confirmed. This check will be passed if no config value is provided for
+                            // formSubmitCatch or a null value is passed instead. Including this will prevent
+                            // the closest parent form to the detector from being submitted.
+                            alert("Submission failed - Human verification not completed");
+                            
+                        }
                     });
 
                 }
@@ -103,7 +117,7 @@
                     } else if (state===2) {
                         alert("A computer has been identified.");
                     } else {
-                        alert("No conclusion has been made yet");
+                        alert("Please confirm if you are a human or not.");
                     }
                 }
                 

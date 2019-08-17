@@ -78,6 +78,16 @@ const config = {
     // Default is true
     useHoneyPot:true,
 
+    // Selects the case of the letters generated in the captcha - uppercase provides only
+    // uppercase letters and is the default if no case is provided, 'both' will provide both
+    // uppercase and lowercase letters
+    case: "uppercase" | "lowercase" | "both",
+
+    // If supplied this function will fire when the closest parent form is submitted without
+    // a successfull human verification being completed. If this option is not provided then
+    // no check will be done and the form will be submitted regardless.
+    formSubmitCatch: function() { }
+
 }
 
 // Grab element and create detector with our config
